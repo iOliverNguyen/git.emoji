@@ -1,5 +1,73 @@
 use std::collections::HashMap;
 
+pub struct Type {
+    pub name: &'static str,
+    pub emoji: Vec<&'static str>,
+    pub alias: Vec<&'static str>,
+}
+
+impl Type {
+    pub fn all() -> Vec<Type> {
+        vec![
+            Type::new("Features")
+                .emoji(&["🚀", "✨"])
+                .alias(&["feat", "ft"]),
+            Type::new("Bug Fixes")
+                .emoji(&["🚧", "🐛"])
+                .alias(&["fix", "fx"]),
+            Type::new("SDKs/Libraries")
+                .emoji(&["🧩", "📦"])
+                .alias(&["sdk", "lib", "pkg", "tenets"]),
+            Type::new("Breaking Changes")
+                .emoji(&["🔥", "💥"])
+                .alias(&["breaking", "br", "brk", "break"]),
+            Type::new("Code Refactoring")
+                .emoji(&["♻️"])
+                .alias(&["refactor", "rf", "ref", "rft"]),
+            Type::new("Infrastructure")
+                .emoji(&["🐳"])
+                .alias(&["infra", "if", "in", "inf"]),
+            Type::new("Tests")
+                .emoji(&["🚨"])
+                .alias(&["test", "ts", "tst"]),
+            Type::new("Documentation")
+                .emoji(&["📚", "📄"])
+                .alias(&["doc", "dc", "docs"]),
+            Type::new("Chores")
+                .emoji(&["🧼", "🧹"])
+                .alias(&["chore", "ch", "chr"]),
+            Type::new("Reverts")
+                .emoji(&["⏳", "⏪"])
+                .alias(&["revert", "rv", "rev", "rvt"]),
+            Type::new("Releases")
+                .emoji(&["🔖"])
+                .alias(&["release", "rl", "rel", "rls"]),
+            Type::new("Others")
+                .emoji(&["🔍"])
+                .alias(&["other", "ot", "oth"]),
+        ]
+    }
+    fn new(name: &'static str) -> Type {
+        Type {
+            name: name,
+            emoji: vec![],
+            alias: vec![],
+        }
+    }
+    fn emoji(mut self, emojis: &[&'static str]) -> Self {
+        emojis.iter().for_each(|&emoji| {
+            self.emoji.push(emoji);
+        });
+        self
+    }
+    fn alias(mut self, aliases: &[&'static str]) -> Self {
+        aliases.iter().for_each(|&alias| {
+            self.alias.push(alias);
+        });
+        self
+    }
+}
+
 pub struct Emojis {
     all: Option<Vec<&'static str>>,
     map: Option<HashMap<&'static str, ()>>,
