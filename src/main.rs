@@ -1,5 +1,8 @@
 mod emoji;
+mod git;
+
 use emoji::*;
+use git::*;
 
 fn main() {
     let mut emojis = Emojis::new();
@@ -15,4 +18,8 @@ fn main() {
         }
         println!()
     }
+
+    let gx = GitX::new();
+    println!("gitemoji: {:?}", gx.gitemoji);
+    println!("original: {:?}", gx.original);
 }
