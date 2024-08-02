@@ -1,0 +1,8 @@
+#!/bin/bash
+set -eo pipefail
+
+run-build() {
+  cargo build "$@"
+}
+
+source "$PROJECT_ROOT/scripts/_cli.sh"
