@@ -1,9 +1,12 @@
-use std::{env, os::unix::fs::PermissionsExt, path::PathBuf};
+use std::{env, os::unix::fs::PermissionsExt, path::PathBuf, rc::Rc};
 
 // GitX is git context
 pub struct GitX {
     pub gitemoji: PathBuf,
     pub original: PathBuf,
+
+    types: Rc<Vec<String>>,
+    emojis: Rc<Vec<String>>,
 }
 
 impl GitX {
@@ -30,5 +33,37 @@ impl GitX {
             .expect("can not find original git: git not in PATH");
 
         GitX { gitemoji, original }
+    }
+    pub fn exec_git(&self, args: Vec<String>) {
+        let gx = GitX::new();
+        let status = std::process::Command::new(&gx.original)
+            .args(args)
+            .status()
+            .expect("failed to execute git");
+        std::process::exit(status.code().unwrap());
+    }
+    pub fn exec_commit(&self, args: Vec<String>) {
+        // parse -feat,-doc,... from args
+        let _args = Vec::new();
+        for (i, arg) in args.iter().enumerate() {}
+
+        // case 1: git commit -m "msg"
+        if args.contains(&"-m".to_string()) {
+            let gx = GitX::new();
+            let status = std::process::Command::new(&gx.original)
+                .args(args)
+                .status()
+                .expect("failed to execute git commit");
+            std::process::exit(status.code().unwrap());
+        }
+
+        // case 2: git commit without -m
+
+        let gx = GitX::new();
+        let status = std::process::Command::new(&gx.original)
+            .args(args)
+            .status()
+            .expect("failed to execute git commit");
+        std::process::exit(status.code().unwrap());
     }
 }
